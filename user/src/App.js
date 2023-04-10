@@ -6,6 +6,7 @@ import style from "./App.module.css";
 import NavBar from "./Component/NavBar";
 import Home from "./Component/Home";
 import Bill from "./Component/bill";
+import Report from "./Component/report";
 class App extends Component {
   state = {};
   constructor(props) {
@@ -13,8 +14,7 @@ class App extends Component {
     this.state = {};
     this.state.username = "1005";
   }
-  componentDidMount() {
-  }
+  componentDidMount() {}
   loginpage() {
     createRoot(document.getElementById("loginpage")).render(
       <div className={style.form}>
@@ -37,7 +37,7 @@ class App extends Component {
             id="password"
           />
         </div>
-      <div id="loginerror" style={{height:"40px"}}></div>
+        <div id="loginerror" style={{ height: "40px" }}></div>
         <div className="d-grid">
           <div className="btn btn-primary" onClick={this.setLocalstorage}>
             Login
@@ -58,12 +58,12 @@ class App extends Component {
             <NavBar id="nav" propState={this.state} Logout={this.logout} />
             <div>
               <Routes>
-              <Route path="/" element={<Home propState={this.state} />} />
-              <Route path="/bill" element={<Bill propState={this.state} />} />
-                {/* <Route
+                <Route path="/" element={<Home propState={this.state} />} />
+                <Route path="/bill" element={<Bill propState={this.state} />} />
+                <Route
                   path="/report"
-                  element={}
-                /> */}
+                  element={<Report propState={this.state} />}
+                />
                 {/* <Route
                   path="/userinfo"
                   element={}

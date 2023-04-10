@@ -6,6 +6,7 @@ import NavBar from "./Component/NavBar";
 import Home from "./Component/Home";
 import Bill from "./Component/bill";
 import CreateBill from "./Component/createbill";
+import Report from "./Component/report";
 class App extends Component {
   state = {};
   constructor(props) {
@@ -32,10 +33,10 @@ class App extends Component {
                   path="/createbill"
                   element={<CreateBill propState={this.state} />}
                 />
-                {/* <Route
+                <Route
                   path="/report"
-                  element={{}}
-                /> */}
+                  element={<Report propState={this.state} />}
+                />
                 {/* <Route
                   path="/room"
                   element={{}}
