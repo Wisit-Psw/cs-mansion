@@ -1,0 +1,54 @@
+.page {
+    min-width: 33%;
+    max-width: 500px;
+    margin: 10px auto 0 auto;
+    height: fit-content;
+    background-color: white;
+
+}
+@media screen and (max-width: 650px) {
+    .page {
+        min-width: 33%;
+        max-width: 500px;
+        margin: 10px auto 0 auto;
+    }
+}
+
+
+.containermenu {
+    width: 400px;
+    margin: 0 auto;
+    min-width: 33%;
+    max-width: 500px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.menubutton_icon {
+    color: gray;
+    font-size: 3.8vh;
+}
+
+.menubutton_icon_selected {
+    color: #306fe9;
+    font-size: 3.8vh;
+
+}
+
+.IconLabel {
+    font-size: 10px;
+    width: 70%;
+    margin: 0 auto;
+}
+
+
+.IconLabelSelece {
+    color: #306fe9;
+}
+
+.IconLabelNoneSelect {
+    color: gray;
+}
+
+/* {color:"#306fe9",width:"fit-content"}
+{color:"gray",fontSize:"8px",width:"fit-content"} */
