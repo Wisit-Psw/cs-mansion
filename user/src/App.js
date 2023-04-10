@@ -4,7 +4,7 @@ import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.min.css";
 import style from "./App.module.css";
 import NavBar from "./Component/NavBar";
-
+import Home from "./Component/Home";
 class App extends Component {
   state = {};
   constructor(props) {
@@ -57,7 +57,7 @@ class App extends Component {
             <NavBar id="nav" propState={this.state} Logout={this.logout} />
             <div>
               <Routes>
-                {/* <Route path="/" element={} /> */}
+              <Route path="/" element={<Home propState={this.state} />} />
                 {/* <Route path="/bill" element={} /> */}
                 {/* <Route
                   path="/report"
