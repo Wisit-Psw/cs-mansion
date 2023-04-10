@@ -7,6 +7,7 @@ import Home from "./Component/Home";
 import Bill from "./Component/bill";
 import CreateBill from "./Component/createbill";
 import Report from "./Component/report";
+import Room from "./Component/room";
 class App extends Component {
   state = {};
   constructor(props) {
@@ -37,10 +38,10 @@ class App extends Component {
                   path="/report"
                   element={<Report propState={this.state} />}
                 />
-                {/* <Route
+                <Route
                   path="/room"
-                  element={{}}
-                /> */}
+                  element={<Room propState={this.state} />}
+                />
               </Routes>
             </div>
           </BrowserRouter>

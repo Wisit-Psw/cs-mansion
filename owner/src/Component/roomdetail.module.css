@@ -1,0 +1,111 @@
+.page{
+    width: 100vw;
+    height: 100vh;
+    padding-bottom: 100px;
+    overflow-y: scroll;
+    position: absolute;
+    background-color: rgba(240, 242, 245, 0.8);
+    top: 0px;
+}
+.page::-webkit-scrollbar {
+    display: none;
+}
+.container{
+    width: 90%;
+    max-width: 500px;
+    margin: 20px auto 0 auto;   
+    background-color: white;
+    padding:10px 10px 50px 10px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0px 1.5px 1.5px rgba(160, 160, 160, 0.8);
+}
+.box{
+    background-color: white;
+    padding: 10PX 20px 30px 20px;
+    margin-top:10px;
+    border-radius:10px;
+}
+.header {
+    width: 100%;
+    min-width: 100%;
+    color: rgb(44, 44, 44);
+    font-weight: 1000;
+    font-family: 'Tw Cen MT Condensed Extra Bold', sans-serif;
+    margin: auto 0;
+}
+
+.closicon {
+    width: 10%;
+    font-size: 23px;
+    color: gray;
+    margin: -0.5% 0 0 -10%;
+}
+
+.closicon:active {
+    background-color: none;
+}
+
+.closicon:hover {
+    cursor: pointer;
+}
+
+.bar {
+    width: 95%;
+    background-color: rgb(167, 167, 167);
+    height: 0.5px;
+    margin: 0 auto;
+}
+.Table{
+    width: 100%;
+    height: fit-content;
+    margin: 0 auto;
+    padding:10px 0px;
+}
+
+.tr{
+    width: 90%;
+    min-height: 35px;
+    border-bottom: 1px solid rgb(223, 223, 223);  
+    display:flex;
+    margin: 0 auto;
+}
+
+.th{
+    width: 100%;
+    margin-top: 10px ;
+    text-align: left;
+
+}
+.td{
+    width: 100%;
+    margin-top: 10px ;
+    text-align: right;
+}
+.edit_button{
+    background-color: #306fe9;
+    color: white;
+    border: none;
+    border-radius:10px;
+    padding:5px 20px;
+    margin: 20px 20px 0 20px;
+    box-shadow: 0px 1.5px 1.5px rgba(160, 160, 160, 0.8);
+}
+.cancel_button{
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius:10px;
+    padding:5px 20px;
+    margin: 20px 20px 0 20px;
+    box-shadow: 0px 1.5px 1.5px rgba(160, 160, 160, 0.8);
+}
+@media screen and (max-width: 650px) {
+    .page {
+        width: 100%;
+        height: 77.8vh;
+        margin: 2px auto 0 auto;
+        width: 98%;
+        overflow-y: scroll;
+    }
+}
