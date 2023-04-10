@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import axios from "axios";
+import axios from "axios";
 import style from "./createbill.module.css";
 import RoomCB from "./roomcreatebill";
 class CreateBill extends Component {
@@ -7,11 +7,15 @@ class CreateBill extends Component {
   constructor(props) {
     super(props);
     this.state = this.props.propState;
-    this.state.arr = [[1,2,3,4,5,6,7]];
+    this.state.arr = [];
     this.state.unitinputstatus = false;
   }
 
-  async querytenant() {}
+  async querytenant() {
+    var tenant = await axios.get("http://cs-mansion.thddns.net:9991/getalltenant");
+    this.setState({ arr: tenant.data });
+    // console.log(tenant.data)
+  }
   componentDidMount() {
     this.querytenant();
   }

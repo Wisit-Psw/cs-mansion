@@ -13,7 +13,7 @@ import {
   BiDotsHorizontalRounded,
 } from "react-icons/bi";
 import { FaReceipt } from "react-icons/fa";
-// import axios from "axios";
+import axios from "axios";
 import Billdetail from "./billdeatail";
 import Payment from "./payment";
 import Status from "./status";
@@ -24,7 +24,7 @@ class Bill extends Component {
   constructor(props) {
     super(props);
     this.state = this.props.propState;
-    this.state.arr = [[1,2,3,4,5,6,7,8,9,10]];
+    this.state.arr = [];
     this.state.unitinputstatus = false;
   }
   payment(data) {
@@ -40,6 +40,21 @@ class Bill extends Component {
     showdetail.render(ele);
   }
   async querybill(status) {
+    var RoomID = document.getElementById("RoomID").value;
+    if (!RoomID) {
+      RoomID = " ";
+    }
+    if (!status) {
+      status = document.getElementById("status").value;
+    }
+    var query = await axios.get(
+      "http://cs-mansion.thddns.net:9991/getbill/" +
+        String(RoomID) +
+        "/" +
+        String(status)
+    );
+    this.setState({ arr: query.data });
+    console.log(query.data)
   }
   componentDidMount() {
     this.querybill(-1);

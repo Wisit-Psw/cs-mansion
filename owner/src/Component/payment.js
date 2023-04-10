@@ -10,10 +10,33 @@ class Payment extends Component {
     this.billstatus = "";
   }
   async querystate() {
+    var res = await axios.get(
+      "http://cs-mansion.thddns.net:9991/billstatus/" +
+        String(this.state.data[7])
+    );
+    await this.setState({ billstatus: res.data[0][1] });
   }
   async updatestate(e) {
+    console.log(
+      "http://cs-mansion.thddns.net:9991/updatestate/" +
+        String(e) +
+        "/" +
+        String(this.state.data[0]) +
+        "/" +
+        String(this.state.data[1])
+    );
+    await axios.put(
+      "http://cs-mansion.thddns.net:9991/updatestate/" +
+        String(this.state.data[0]) +
+        "/" +
+        String(this.state.data[1])+"/" +
+        String(e) 
+        
+    );
+    // this.props.querybill();
   }
   componentDidMount() {
+    this.querystate();
   }
 
   render() {

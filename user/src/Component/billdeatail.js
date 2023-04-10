@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import axios from "axios";
+import axios from "axios";
 // import { createRoot } from "react-dom/client";
 import style from "./billdetail.module.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
@@ -12,8 +12,18 @@ class Billdetail extends Component {
     this.state.roomprice = "";
     this.state.eachprice = "";
   }
-  async queryeachprice() {}
-  async querroomprice() {}
+  async queryeachprice() {
+    var res = await axios.get(
+      "http://cs-mansion.thddns.net:9991/geteachprice/"
+    );
+    await this.setState({ eachprice: res.data[res.data.length - 1] });
+  }
+  async querroomprice() {
+    var res = await axios.get(
+      "http://cs-mansion.thddns.net:9991/getroomprice/" + this.state.data[0]
+    );
+    await this.setState({ roomprice: res.data[res.data.length - 1] });
+  }
 
   componentDidMount() {
     this.queryeachprice();

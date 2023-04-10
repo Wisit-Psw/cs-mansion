@@ -7,7 +7,7 @@ import {
   MdOutlinePayments,
 } from "react-icons/md";
 import { createRoot } from "react-dom/client";
-// import axios from "axios";
+import axios from "axios";
 import { BiDetail } from "react-icons/bi";
 import Billdetail from "./billdeatail";
 import Payment from "./payment";
@@ -19,15 +19,39 @@ class Bill extends Component {
     super(props);
     this.state = this.props.propState;
     this.postSubmit = this.postSubmit.bind(this);
-    this.state.arr = [[1,2,3,4,5,6,7,8,9,10]];
+    this.state.arr = [];
     this.state.unitinputstatus = false;
   }
   
-  async ckeckdate() {}
+  async ckeckdate() {
+    var status = await axios.get(
+      "http://192.168.1.104:8000/getinputbillstatus/" +
+        String(this.state.username)
+    );
+    this.setState({ unitinputstatus: status.data });
+  }
   async postSubmit(p) {
-}
-  async querybill() {}
-  componentDidMount() {}
+    await axios.put(
+      "http://cs-mansion.thddns.net:9991/putslip",
+      JSON.stringify({
+        RoomID: p.RoomID,
+        Date: p.Date,
+        file: p.file,
+      })
+    );
+    this.querybill();
+    this.hinddetail();
+  }
+  async querybill() {
+    var query = await axios.get(
+      "http://cs-mansion.thddns.net:9991/getbill/" + this.state.username + "/-1"
+    );
+    this.setState({ arr: query.data });
+  }
+  componentDidMount() {
+    this.querybill();
+    this.ckeckdate();
+  }
   hinddetail() {
     var showdetail = createRoot(document.getElementById("showdetail"));
     var ele = <div></div>;
