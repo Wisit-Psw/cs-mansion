@@ -13,13 +13,40 @@ class Report extends Component {
   constructor(props) {
     super(props);
     this.state = this.props.propState;
-    this.state.arr = [[1,2,3,4,5,6,7,8,9,0]];
+    this.state.arr = [];
     this.queryreport = this.queryreport.bind(this);
   }
-  async queryreport() {}
-  async postreport() {}
-  async deletereport(reportid) {}
-  async checkreport(reportid) {}
+  async queryreport() {
+    var query = await axios.get(
+      "http://cs-mansion.thddns.net:9991/getreport/-1/" + this.state.username
+    );
+    this.setState({ arr: query.data });
+  }
+  async postreport() {
+    var data = document.getElementById("reportinput");
+    await axios.post(
+      "http://cs-mansion.thddns.net:9991/postreport/" +
+        String(this.state.username) +
+        "/" +
+        String(data.value)
+    );
+    this.queryreport();
+    data.value = "";
+  }
+  async deletereport(reportid) {
+    console.log("http://cs-mansion.thddns.net:9991/deletereport/" + reportid);
+    await axios.delete(
+      "http://cs-mansion.thddns.net:9991/deletereport/" + String(reportid)
+    );
+    this.queryreport();
+  }
+  async checkreport(reportid) {
+    console.log("http://cs-mansion.thddns.net:9991/checkreport/" + reportid);
+    await axios.put(
+      "http://cs-mansion.thddns.net:9991/checkreport/" + String(reportid)
+    );
+    this.queryreport();
+  }
   componentDidMount() {
     this.queryreport();
   }

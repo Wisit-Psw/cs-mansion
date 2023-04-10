@@ -7,11 +7,30 @@ class User extends Component {
   constructor(props) {
     super(props);
     this.state = this.props.propState;
-    this.state.room = [1,2,3,4,5,6,7,8,9,0];
-    this.state.User1 = [1,2,3,4,5,6,7,8,9,0];
-    this.state.User2 = [1,2,3,4,5,6,7,8,9,0];
+    this.state.room = "";
+    this.state.User1 = "";
+    this.state.User2 = "";
   }
-  async queryUser() {}
+  async queryUser() {
+    var query = await axios.get(
+      "http://cs-mansion.thddns.net:9991/gettenant/" + this.state.username
+    );
+    query = query.data;
+    var room = await axios.get(
+      "http://cs-mansion.thddns.net:9991/getroomdata/" + query[0][3] + "/-1"
+    );
+    this.setState({ room: room.data[0] });
+    var user1 = await axios.get(
+      "http://cs-mansion.thddns.net:9991/getuserdata/" + query[0][1]
+    );
+    this.setState({ User1: user1.data[0] });
+    if (query[0][2] != null) {
+      var user2 = await axios.get(
+        "http://cs-mansion.thddns.net:9991/getuserdata/" + query[0][2]
+      );
+      this.setState({ User2: user2.data[0] });
+    }
+  }
   componentDidMount() {
     this.queryUser();
   }

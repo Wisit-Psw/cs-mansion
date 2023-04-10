@@ -5,7 +5,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { BiCheckSquare } from "react-icons/bi";
 // , BiEdit
 import { BiSearchAlt2 } from "react-icons/bi";
-// import axios from "axios";
+import axios from "axios";
 
 import style from "./report.module.css";
 
@@ -14,12 +14,38 @@ class Report extends Component {
   constructor(props) {
     super(props);
     this.state = this.props.propState;
-    this.state.arr = [[1,2,3,4,5,6,7,8,9,0]];
+    this.state.arr = [];
     this.queryreport = this.queryreport.bind(this);
   }
-  async queryreport(status) {}
-  async deletereport(reportid) {}
-  async checkreport(reportid) { }
+  async queryreport(status) {
+    if (!status) {
+      status = document.getElementById("status").value;
+    }
+    var RoomID = document.getElementById("RoomID").value;
+    if (!RoomID) {
+      RoomID = "None";
+    }
+    var query = await axios.get(
+      "http://cs-mansion.thddns.net:9991/getreport/" +
+        String(status) +
+        "/" +
+        String(RoomID)
+    );
+    this.setState({ arr: query.data });
+  }
+  async deletereport(reportid) {
+    await axios.delete(
+      "http://cs-mansion.thddns.net:9991/deletereport/" + String(reportid)
+    );
+    this.queryreport();
+  }
+  async checkreport(reportid) {
+    console.log("http://cs-mansion.thddns.net:9991/checkreport/" + reportid);
+    await axios.put(
+      "http://cs-mansion.thddns.net:9991/checkreport/" + String(reportid)
+    );
+    this.queryreport();
+  }
   componentDidMount() {
     this.queryreport();
   }

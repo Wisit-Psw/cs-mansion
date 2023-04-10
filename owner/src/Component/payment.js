@@ -17,23 +17,15 @@ class Payment extends Component {
     await this.setState({ billstatus: res.data[0][1] });
   }
   async updatestate(e) {
-    console.log(
-      "http://cs-mansion.thddns.net:9991/updatestate/" +
-        String(e) +
-        "/" +
-        String(this.state.data[0]) +
-        "/" +
-        String(this.state.data[1])
-    );
     await axios.put(
       "http://cs-mansion.thddns.net:9991/updatestate/" +
         String(this.state.data[0]) +
         "/" +
-        String(this.state.data[1])+"/" +
-        String(e) 
-        
+        String(this.state.data[1]) +
+        "/" +
+        String(e)
     );
-    // this.props.querybill();
+    this.props.querybill();
   }
   componentDidMount() {
     this.querystate();
@@ -46,7 +38,9 @@ class Payment extends Component {
           <div className={style.container}>
             <div>
               <div style={{ display: "flex", width: "100%" }}>
-                <div className={style.header}>{this.state.billstatus||'กำลังโหลด'}</div>
+                <div className={style.header}>
+                  {this.state.billstatus || "กำลังโหลด"}
+                </div>
                 <div
                   className={style.closicon}
                   onClick={() => {
@@ -76,7 +70,7 @@ class Payment extends Component {
                 <button
                   className={style.cancle}
                   onClick={() => {
-                    this.updatestate(4);
+                    this.updatestate(1);
                   }}
                 >
                   Cancle

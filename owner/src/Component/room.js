@@ -12,10 +12,25 @@ class Room extends Component {
   constructor(props) {
     super(props);
     this.state = this.props.propState;
-    this.state.arr = [[1,2,3,4,5],[2,2,3,4,5]];
+    this.state.arr = [];
     this.getroomdata = this.getroomdata.bind(this);
   }
-  async getroomdata(status) {}
+  async getroomdata(status) {
+    if (!status) {
+      status = document.getElementById("status").value;
+    }
+    var RoomID = document.getElementById("RoomID").value;
+    if (!RoomID) {
+      RoomID = "None";
+    }
+    var query = await axios.get(
+      "http://cs-mansion.thddns.net:9991/getroomdata/" +
+        String(RoomID) +
+        "/" +
+        String(status)
+    );
+    this.setState({ arr: query.data });
+  }
   componentDidMount() {
     this.getroomdata();
   }

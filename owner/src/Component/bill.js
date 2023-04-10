@@ -27,13 +27,13 @@ class Bill extends Component {
     this.state.arr = [];
     this.state.unitinputstatus = false;
   }
+  
   payment(data) {
     var showdetail = createRoot(document.getElementById("showdetail"));
     var ele = (
       <Payment
         data={data}
         hinddetail={this.hinddetail}
-        postSubmit={this.postSubmit}
         querybill={this.querybill}
       />
     );
@@ -54,7 +54,6 @@ class Bill extends Component {
         String(status)
     );
     this.setState({ arr: query.data });
-    console.log(query.data)
   }
   componentDidMount() {
     this.querybill(-1);
@@ -121,7 +120,7 @@ class Bill extends Component {
               .slice(0)
               .reverse()
               .map((el) => (
-                <div key={el[0]} className={style.inputbox}>
+                <div key = {el[0]+el[1]} className={style.inputbox}>
                   <div className={style.inputbox2}>
                     <div className={style.mothunit}>
                       <div className={style.inputcontainer}>
@@ -138,7 +137,7 @@ class Bill extends Component {
                         {el[6]}
                       </div>
                       <div className={style.inputcontainer}>
-                        {<Status status={el[7]} />}
+                        {<Status status={el[7]} key = {el[1]} />||"กำลังโหลด"}
                       </div>
                       <div style={{ display: "flex" }}>
                         <Dropdown>

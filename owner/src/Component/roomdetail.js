@@ -14,8 +14,30 @@ class Roomdetail extends Component {
     this.state.editstatus = false;
     this.state.addstatus = false;
   }
-  async querroom() {}
-  async quertenant() {}
+  async querroom() {
+    var res = await axios.get(
+      "http://cs-mansion.thddns.net:9991/getroomdata/" + this.state.data + "/-1"
+    );
+    await this.setState({ room: res.data[0] });
+  }
+  async quertenant() {
+    var res = await axios.get(
+      "http://cs-mansion.thddns.net:9991/gettenant/" + this.state.data
+    );
+    await this.setState({ tenant: res.data[0] });
+    if (res.data[0] && res.data[0][4] === 1) {
+      var res2 = await axios.get(
+        "http://cs-mansion.thddns.net:9991/getuserdata/" +
+          String(res.data[0][1])
+      );
+      await this.setState({ user1: res2.data[0] });
+      var res3 = await axios.get(
+        "http://cs-mansion.thddns.net:9991/getuserdata/" +
+          String(res.data[0][2])
+      );
+      await this.setState({ user2: res3.data[0] });
+    }
+  }
   async moveout() {
     await axios.put(
       "http://cs-mansion.thddns.net:9991/moveout/" + String(this.state.room[0])
@@ -25,19 +47,118 @@ class Roomdetail extends Component {
     this.props.hinddetail();
   }
   async update() {
+    var roomprice = document.getElementById("roomprice").value;
+
+    await axios.put(
+      "http://cs-mansion.thddns.net:9991/updateroom/" +
+        String(this.state.room[0]) +
+        "/" +
+        String(roomprice)
+    );
+    if (this.state.room[4] === "1") {
+      if (this.state.user1 && this.state.user1.length !== 0) {
+        var user1name = document.getElementById("user1name").value;
+        var user1address = document.getElementById("user1address").value;
+        var user1phone = document.getElementById("user1phone").value;
+        await axios.put(
+          "http://cs-mansion.thddns.net:9991/updateuser/" +
+            String(this.state.user1[3]) +
+            "/" +
+            String(user1name) +
+            "/" +
+            String(user1address) +
+            "/" +
+            String(user1phone)
+        );
+      }
+      if (this.state.user2 && this.state.user2.length !== 0) {
+        var user2name = document.getElementById("user2name").value;
+        var user2address = document.getElementById("user2address").value;
+        var user2phone = document.getElementById("user2phone").value;
+        await axios.put(
+          "http://cs-mansion.thddns.net:9991/updateuser/" +
+            String(this.state.user2[3]) +
+            "/" +
+            String(user2name) +
+            "/" +
+            String(user2address) +
+            "/" +
+            String(user2phone)
+        );
+      }
+    }
     this.querroom();
     this.quertenant();
     this.setState({ editstatus: !this.state.editstatus });
   }
 
   async addtenant() {
+    var user1phone = document.getElementById("user1phone").value;
+    var user2phone = document.getElementById("user2phone").value;
+    if (user1phone !== "") {
+      var checkuser = await axios.get(
+        "http://cs-mansion.thddns.net:9991/getuserdata/" +
+          String(user1phone)
+      );
+      if (checkuser.data.length === 0) {
+        var user1name = document.getElementById("user1name").value;
+        var user1peopleid = document.getElementById("user1peopleid").value;
+        var user1address = document.getElementById("user1address").value;
+        await axios.post(
+          "http://cs-mansion.thddns.net:9991/postuser/" +
+            String(user1name) +
+            "/" +
+            String(user1peopleid) +
+            "/" +
+            String(user1address) +
+            "/" +
+            String(user1phone)
+        );
+      }
+    }
+    if (user2phone !== "") {
+      var checkuser2 = await axios.get(
+        "http://cs-mansion.thddns.net:9991/getuserdata/" +
+          String(user2phone)
+      );
+      if (checkuser2.data.length === 0) {
+        var user2name = document.getElementById("user2name").value;
+        var user2peopleid = document.getElementById("user2peopleid").value;
+        var user2address = document.getElementById("user2address").value;
+        await axios.post(
+          "http://cs-mansion.thddns.net:9991/postuser/" +
+            String(user2name) +
+            "/" +
+            String(user2peopleid) +
+            "/" +
+            String(user2address) +
+            "/" +
+            String(user2phone)
+        );
+      }
+    }else{
+      user2phone="-1";
+    }
+    if (user1phone !== "") {
+      console.log(String(user1phone))
+      console.log(String(user2phone))
+      console.log(String(this.state.room[0]))
+      await axios.post(
+        "http://cs-mansion.thddns.net:9991/posttenant/" +
+          String(user1phone) +
+          "/" +
+          String(user2phone) +
+          "/" +
+          String(this.state.room[0])
+      );
+    }
+
     this.querroom();
     this.quertenant();
     this.setState({ editstatus: !this.state.editstatus });
   }
   componentDidMount() {
     this.querroom();
-    console.log(this.state.room);
     this.quertenant();
   }
 
