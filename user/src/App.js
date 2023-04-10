@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import style from "./App.module.css";
 import NavBar from "./Component/NavBar";
 import Home from "./Component/Home";
+import Bill from "./Component/bill";
 class App extends Component {
   state = {};
   constructor(props) {
@@ -58,7 +59,7 @@ class App extends Component {
             <div>
               <Routes>
               <Route path="/" element={<Home propState={this.state} />} />
-                {/* <Route path="/bill" element={} /> */}
+              <Route path="/bill" element={<Bill propState={this.state} />} />
                 {/* <Route
                   path="/report"
                   element={}

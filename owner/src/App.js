@@ -4,6 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import style from "./App.module.css";
 import NavBar from "./Component/NavBar";
 import Home from "./Component/Home";
+import Bill from "./Component/bill";
+import CreateBill from "./Component/createbill";
 class App extends Component {
   state = {};
   constructor(props) {
@@ -11,8 +13,7 @@ class App extends Component {
     this.state = {};
     this.state.username = "0";
   }
-  componentDidMount() {
-  }
+  componentDidMount() {}
   render() {
     return (
       <div id="app" className={style.App}>
@@ -22,12 +23,15 @@ class App extends Component {
               className="d-grid"
               style={{ position: "fixed", margin: "100px 0 0 80%" }}
             ></div>
-            <NavBar id="nav" propState={this.state}  />
+            <NavBar id="nav" propState={this.state} />
             <div>
               <Routes>
-              <Route path="/" element={<Home propState={this.state} />} />
-                {/* <Route path="/bill" element={{}} /> */}
-                {/* <Route path="/createbill" element={{}} /> */}
+                <Route path="/" element={<Home propState={this.state} />} />
+                <Route path="/bill" element={<Bill propState={this.state} />} />
+                <Route
+                  path="/createbill"
+                  element={<CreateBill propState={this.state} />}
+                />
                 {/* <Route
                   path="/report"
                   element={{}}
