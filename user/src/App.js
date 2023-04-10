@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import axios from "axios";
 import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.min.css";
 import style from "./App.module.css";
@@ -8,14 +9,74 @@ import Home from "./Component/Home";
 import Bill from "./Component/bill";
 import Report from "./Component/report";
 import User from "./Component/user";
+
 class App extends Component {
   state = {};
+  async setLocalstorage() {
+    var username = document.getElementById("RoomID").value;
+    var password = document.getElementById("password").value;
+    if(String(username)!=="0"){
+      var session = await axios.get(
+        "http://cs-mansion.thddns.net:9991/Login/" +
+          String(username) +
+          "/" +
+          String(password)
+      );
+      if(session.data.login){
+        await window.localStorage.setItem("Session", session.data.key);
+        this.login();
+      }
+      else{
+        var loginerror =  createRoot(document.getElementById("loginerror"))
+        loginerror.render(<b style={{color:"red",marginTop:"-20px"}}>Login Error</b>)
+      }
+      
+    }else{
+      loginerror =  createRoot(document.getElementById("loginerror"))
+      loginerror.render(<b style={{color:"red",marginTop:"-20px"}}>Login Error</b>)
+    }
+   
+  }
+  getLocalstorage() {
+    return window.localStorage.getItem("Session");
+  }
+  async login() {
+    var session = await this.getLocalstorage("Session");
+    if (session != null) {
+      var username = await axios.get(
+        "http://cs-mansion.thddns.net:9991/getsession/" + session
+      );
+      if (username.data.length > 0) {
+        this.setState({ username: username.data[0][1] });
+      } else {
+        await window.localStorage.setItem("Session", null);
+        this.loginpage();
+      }
+    } else {
+      this.loginpage();
+    }
+  }
+  async logout() {
+    var session = await window.localStorage.getItem("Session");
+    if (session != null) {
+      await axios.get("http://cs-mansion.thddns.net:9991/Logout/" + session);
+    }
+    this.setState({ username: "" });
+    await window.localStorage.setItem("Session", null);
+    this.login();
+  }
   constructor(props) {
     super(props);
     this.state = {};
-    this.state.username = "1005";
+    this.state.username = "";
+    this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
+    this.setLocalstorage = this.setLocalstorage.bind(this);
+    this.getLocalstorage = this.getLocalstorage.bind(this);
   }
-  componentDidMount() {}
+  componentDidMount() {
+    this.login();
+  }
   loginpage() {
     createRoot(document.getElementById("loginpage")).render(
       <div className={style.form}>
@@ -38,7 +99,7 @@ class App extends Component {
             id="password"
           />
         </div>
-        <div id="loginerror" style={{ height: "40px" }}></div>
+      <div id="loginerror" style={{height:"40px"}}></div>
         <div className="d-grid">
           <div className="btn btn-primary" onClick={this.setLocalstorage}>
             Login
