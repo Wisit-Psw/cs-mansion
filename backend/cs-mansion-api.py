@@ -196,9 +196,9 @@ async def getreport(RoomID:str,Status:int)-> dict:
     try:
         
         cur = cnx.cursor()
-        sql = "SELECT * FROM `bill` INNER JOIN `Tenant` ON bill.RoomID=Tenant.RoomID "
+        sql = "SELECT * FROM `bill` LEFT JOIN `Tenant` ON bill.RoomID=Tenant.RoomID WHERE Tenant.TenantEnd IS NULL"
         if Status != -1 or  RoomID not in ['',' ',None] :
-            sql += " WHERE "
+            sql += " AND "
         if RoomID not in ['',' ',None] :
             sql += " Tenant.RoomID = "+str(RoomID) 
             sql += " AND (bill.Date >= Tenant.TenantEnd OR Tenant.TenantEnd IS NULL  )"
